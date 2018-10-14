@@ -1,0 +1,35 @@
+---
+- name: Packer archive download
+  get_url:
+    url: '{{packer_url}}'
+    dest: /tmp/{{ packer_archive }}
+    mode: 0600
+    checksum: '{{packer_checksum}}'
+
+- name: Packer archive extraction
+  file:
+    path: '{{packer_dir}}'
+    state: directory
+    owner: '{{packer_user}}'
+    group: '{{packer_group}}'
+
+- name: Packer archive extraction
+  unarchive:
+    remote_src: True
+    src: /tmp/{{packer_archive}}
+    dest: '{{packer_dir}}'
+    owner: '{{packer_user}}'
+    group: '{{packer_group}}'
+    mode: 0755
+    creates: '{{packer_dir}}/packer'
+
+- name: Packer archive removal
+  file:
+    path: /tmp/{{packer_archive}}
+    state: absent
+
+- name: Packer binary link
+  file:
+    src: '{{packer_dir}}/packer'
+    dest: '{{packer_bin_dir}}/packer'
+    state: link

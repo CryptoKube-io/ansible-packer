@@ -1,0 +1,5 @@
+---
+packer_name: packer_{{packer_version}}
+packer_archive: '{{packer_name}}_{{packer_platform}}.zip'
+packer_url: '{{packer_mirror}}/{{packer_version}}/{{packer_archive}}'
+packer_checksum: '{{packer_checksums[packer_version][packer_platform]}}'
